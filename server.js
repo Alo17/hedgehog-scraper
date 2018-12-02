@@ -48,6 +48,7 @@ app.get('/Ocean/:keyword',(req,res) => {
       })
       .end()
       .then(function(result) {
+        console.log(result)
         return result.slice(1,5);//bot takes first 4 pictures
       })
       .then(function (images) {
