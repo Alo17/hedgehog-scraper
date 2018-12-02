@@ -25,33 +25,33 @@ app.get('/:name', (req, res) => {
   res.send(`Hi, ${name}`);
 });
 //This is how to find the hedgie images and then the following word is what you want to find the hedge with
-app.get('/hedgie/:keyword',(req,res) => {
+app.get('/Ocean/:keyword',(req,res) => {
   var keyword = req.params.keyword;
 
   function findHedgieImage(keyword) {
-    var nightmare = Nightmare({show: true}); //makes bot
+    var nightmare = Nightmare({show: true}); //creates bot
     return nightmare
 
-    .goto('https://www.google.com') //bot goes to google
-    .insert('input[title="Search"]', `hedgehog ${keyword}`)//the thing you want to search the hedge with
-    .click('input[value="Google Search"]')//this clicks the search button in order to find the image
-    .wait('a.q.qs')//This is telling it to wait until the web is found
-    .click('a.q.qs')//
-    .wait('div#res.med')
+    .goto('https://www.google.com') //bot goes to google.com
+    .insert('input[title="Search"]', `Ocean ${keyword}`)//bot searches Ocean + whatever keyword is
+    .click('input[value="Google Search"]')//this clicks the search button
+    .wait('a.q.qs')//wait for the link to show up
+    .click('a.q.qs')// click the link when it shows up
+    .wait('div#res.med')//wait for div to appear
     .evaluate(function() {
       var photoDivs = document.querySelectorAll('img.rg_ic');
-      var list = [].slice.call(photoDivs);
+      var list = [].slice.call(photoDivs); //bot collects all photo containors into one selection
 
         return list.map(function(div) {
-          return div.src;
+          return div.src;//bot gives us collection of image links
         });
       })
       .end()
       .then(function(result) {
-        return result.slice(1,5);
+        return result.slice(1,5);//bot takes first 4 pictures
       })
       .then(function (images) {
-        res.json(images);
+        res.json(images);//bot gives back images to the user
       })
       .catch(function (error) {
         console.error('Search failed',error);
